@@ -46,20 +46,7 @@ Este projeto foi construído com foco em **experiência do usuário (UX) premium
 * **GitHub & CI/CD**: Deploy automático via Webhooks (Vercel + Render).
 * **Hospedagem**: Frontend na **Vercel** e Backend no **Render.com**.
 
----
 
-## 🤖 Desenvolvimento Assistido por Inteligência Artificial (AI-Assisted)
-
-Este projeto é um exemplo prático de **engenharia de software moderna impulsionada por IA**, tendo sido construído em colaboração com o agente autônomo de programação **Antigravity** da equipe **Google DeepMind**.
-
-### Como a IA foi utilizada no projeto:
-1. **Divisão de Papéis**:
-   * **Usuário (Product Owner & Designer)**: Definiu o escopo pedagógico, a narrativa de RPG, as paletas de cores específicas do tema dark (fundo `#050608`, destaques em ciano `#1AB8FF` e ciano/teal `#43E8D8`), as restrições de desempenho (uso de Canvas 2D ao invés de Three.js) e realizou a curadoria e revisão dos textos pedagógicos da UERJ.
-   * **Agente AI (Engenheiro de Software)**: Traduziu as especificações de design em código otimizado. Codificou a lógica matemática das colisões de partículas, a renderização matemática de linhas de lasers no Canvas, as curvas de inércia do movimento do avatar, a programação de áudio via sintetizadores Web Audio API, os controladores REST em Spring Boot e a parametrização do `Dockerfile` multi-stage.
-2. **Produtividade Acelerada**:
-   * A colaboração permitiu criar, ajustar, testar e publicar um portal web funcional completo (frontend + backend + Docker + integração de deploy) em menos de um dia, garantindo boas práticas de codificação, SEO nativo e consistência absoluta no sistema de design.
-
----
 
 ## ⚙️ Configuração Local
 
