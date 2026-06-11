@@ -1,0 +1,38 @@
+.sound-widget {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+  background: var(--bg-tertiary);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.sound-widget:hover {
+  transform: scale(1.1);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px var(--accent-purple-glow);
+}
+
+.sound-icon {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.sound-widget.active .sound-icon {
+  color: var(--accent-purple);
+}
+
+.sound-widget.muted .sound-icon {
+  color: var(--text-secondary);
+}
+
+

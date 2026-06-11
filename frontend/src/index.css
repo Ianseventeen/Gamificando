@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+  --font-primary: 'Outfit', sans-serif;
+  --font-secondary: 'Inter', sans-serif;
+
+  /* RPG Dark Theme Color Palette */
+  --bg-primary: #050608;
+  --bg-secondary: #0D1117;
+  --bg-tertiary: #151A22;
+  --accent-purple: #43E8D8;          /* Destaque (Teal/Cyan) */
+  --accent-purple-glow: rgba(67, 232, 216, 0.3);
+  --accent-cyan: #1AB8FF;            /* Destaque forte (Blue) */
+  --accent-cyan-glow: rgba(26, 184, 255, 0.3);
+  --accent-gold: #43E8D8;            /* Alinhado com Destaque */
+  --accent-gold-glow: rgba(67, 232, 216, 0.3);
+  --text-primary: #F4F7FA;
+  --text-secondary: #9CA7B8;
+  --text-muted: #5e6b7e;
+  --glass-bg: #151A22;               /* Fundo dos Cards */
+  --glass-border: #2B3442;           /* Bordas */
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --card-border: 1px solid #2B3442;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-secondary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+}
+
+.glass-panel-glow {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2), 0 8px 32px 0 var(--glass-shadow);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 3s infinite alternate;
+}
+
+/* Buttons styling */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-purple), #6366f1);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  padding: 12px 24px;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent-purple);
+  transform: translateY(-2px);
+}
+
+/* Grid & Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SEO Title Styling */
+.main-title {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #fff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}

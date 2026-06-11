@@ -1,0 +1,202 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  padding: 80px 20px 40px;
+  position: relative;
+  --mouse-x: 0;
+  --mouse-y: 0;
+}
+
+.hero-section {
+  text-align: center;
+  max-width: 750px;
+  margin-bottom: 60px;
+}
+
+.hero-tag {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--accent-purple);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px var(--accent-purple-glow);
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* 3D Perspective Wrapper */
+.perspective-wrapper {
+  perspective: 1500px;
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  justify-content: center;
+}
+
+.choice-container-3d {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  width: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--mouse-x) * 16deg)) rotateX(calc(var(--mouse-y) * -16deg));
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.choice-card-3d {
+  position: relative;
+  border-radius: 24px;
+  padding: 40px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  text-decoration: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Layered Parallax Elements inside Card */
+.card-depth-layer {
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.icon-wrapper-3d {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  transform: translateZ(30px); /* Lifts off card surface */
+  transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.card-icon-3d {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.4s ease;
+}
+
+.serious-card .card-icon-3d { color: var(--accent-cyan); }
+.rpg-card .card-icon-3d { color: var(--accent-purple); }
+
+.card-tag-text {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  transform: translateZ(20px);
+}
+
+.choice-card-3d h2 {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+  transform: translateZ(40px);
+  transition: color 0.3s ease;
+}
+
+.choice-card-3d p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  transform: translateZ(25px);
+}
+
+.card-footer-action {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transform: translateZ(35px);
+  transition: gap 0.3s ease, color 0.3s ease;
+}
+
+.serious-card .card-footer-action { color: var(--accent-cyan); }
+.rpg-card .card-footer-action { color: var(--accent-purple); }
+
+/* Glow Background on hover */
+.card-top-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.serious-card .card-top-glow {
+  background: radial-gradient(circle at 10% 10%, rgba(26, 184, 255, 0.12) 0%, transparent 60%);
+}
+
+.rpg-card .card-top-glow {
+  background: radial-gradient(circle at 10% 10%, rgba(67, 232, 216, 0.12) 0%, transparent 60%);
+}
+
+/* Hover States */
+.choice-card-3d:hover {
+  border-color: var(--hover-border-color);
+  box-shadow: 0 15px 35px var(--hover-shadow-color);
+  transform: translateZ(15px) scale(1.02);
+}
+
+.serious-card:hover {
+  --hover-border-color: var(--accent-cyan);
+  --hover-shadow-color: rgba(26, 184, 255, 0.15);
+}
+
+.rpg-card:hover {
+  --hover-border-color: var(--accent-purple);
+  --hover-shadow-color: rgba(67, 232, 216, 0.15);
+}
+
+.choice-card-3d:hover .card-top-glow {
+  opacity: 1;
+}
+
+.choice-card-3d:hover .icon-wrapper-3d {
+  transform: translateZ(45px) rotate(5deg);
+  border-color: var(--hover-border-color);
+}
+
+.choice-card-3d:hover .card-footer-action {
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .choice-container-3d {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    transform: none !important; /* Disable 3D tilt on mobile */
+  }
+
+  .choice-card-3d {
+    padding: 30px;
+  }
+}

@@ -1,0 +1,41 @@
+# IDEs e Editores
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvsca*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Java (Maven)
+**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.releaseBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.metadata/
+.classpath
+.project
+.settings/
+*.launch
+bin/
+
+# Node.js
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/*.local
+
+# Variáveis de ambiente locais
+frontend/.env
+**/logs/
+**/*.log
