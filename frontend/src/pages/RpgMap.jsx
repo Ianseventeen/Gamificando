@@ -153,11 +153,20 @@ export default function RpgMap() {
   const activePhase = phases.find(p => p.id === currentLevel) || phases[0];
   const activeNode = NODES.find(n => n.id === currentLevel) || NODES[0];
 
-  // Draw lines connecting the nodes
+  // Draw curved lines connecting the nodes (Rainbow Road)
   const getSvgPath = () => {
-    let path = `M ${NODES[0].x}% ${NODES[0].y}%`;
-    for (let i = 1; i < NODES.length; i++) {
-      path += ` L ${NODES[i].x}% ${NODES[i].y}%`;
+    let path = `M ${NODES[0].x} ${NODES[0].y}`;
+    for (let i = 0; i < NODES.length - 1; i++) {
+      const p0 = NODES[i];
+      const p1 = NODES[i + 1];
+      
+      // Control points for smooth horizontal S-curves
+      const cp1x = p0.x + (p1.x - p0.x) * 0.35;
+      const cp1y = p0.y;
+      const cp2x = p0.x + (p1.x - p0.x) * 0.65;
+      const cp2y = p1.y;
+      
+      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p1.x} ${p1.y}`;
     }
     return path;
   };
@@ -199,19 +208,64 @@ export default function RpgMap() {
           </div>
 
           <div className="map-view-wrapper" ref={mapContainerRef}>
-            {/* Connection line between levels */}
-            <svg className="map-svg-connections">
-              <path d={getSvgPath()} fill="none" className="path-line" />
-              {/* Progress Line */}
+            {/* Connection line between levels (Rainbow Road) */}
+            <svg className="map-svg-connections" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                {/* Rainbow road gradient (bottom to top) */}
+                <linearGradient id="rainbow-road-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="#1AB8FF" />
+                  <stop offset="20%" stopColor="#43E8D8" />
+                  <stop offset="40%" stopColor="#00FF87" />
+                  <stop offset="60%" stopColor="#FFDF00" />
+                  <stop offset="80%" stopColor="#FF007F" />
+                  <stop offset="100%" stopColor="#BD34FE" />
+                </linearGradient>
+
+                {/* Volumetric glow filter */}
+                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur1" />
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur2" />
+                  <feMerge>
+                    <feMergeNode in="blur2" />
+                    <feMergeNode in="blur1" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* 1. Volumetric Ambient Glow (Backdrop Glow) */}
+              <path d={getSvgPath()} fill="none" className="path-line-back-glow" />
+
+              {/* 2. Rainbow Rails (Road Border) */}
+              <path d={getSvgPath()} fill="none" className="path-line-rainbow" />
+
+              {/* 3. Dark Glass Center Track */}
+              <path d={getSvgPath()} fill="none" className="path-line-dark-center" />
+
+              {/* 4. Core Dashed Energy Lane */}
+              <path d={getSvgPath()} fill="none" className="path-line-core-energy" />
+
+              {/* 5. Glowing Active Progress Overlay */}
               <path 
                 d={getSvgPath()} 
                 fill="none" 
-                className="path-line-progress" 
+                className="path-line-progress-neon" 
                 style={{
-                  strokeDasharray: '1000',
-                  strokeDashoffset: `${1000 - (1000 * (currentLevel - 1) / 6)}`
+                  strokeDasharray: '400',
+                  strokeDashoffset: `${400 - (400 * (currentLevel - 1) / 6)}`
                 }}
               />
+
+              {/* 6. Animated Light Beads (Energy Particles) */}
+              <circle r="0.6" fill="#ffffff" filter="url(#neon-glow)">
+                <animateMotion dur="8s" repeatCount="indefinite" path={getSvgPath()} />
+              </circle>
+              <circle r="0.4" fill="#1AB8FF" filter="url(#neon-glow)">
+                <animateMotion dur="12s" repeatCount="indefinite" path={getSvgPath()} />
+              </circle>
+              <circle r="0.4" fill="#43E8D8" filter="url(#neon-glow)">
+                <animateMotion dur="10s" begin="3.5s" repeatCount="indefinite" path={getSvgPath()} />
+              </circle>
             </svg>
 
             {/* Level Nodes */}

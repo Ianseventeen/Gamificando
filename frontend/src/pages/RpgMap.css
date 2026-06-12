@@ -137,19 +137,53 @@
   z-index: 1;
 }
 
-.path-line {
-  stroke: rgba(255, 255, 255, 0.05);
-  stroke-width: 4;
+/* Rainbow Road Connection Path */
+.path-line-back-glow {
+  stroke: url(#rainbow-road-grad);
+  stroke-width: 7;
   stroke-linecap: round;
-  stroke-dasharray: 8 8;
+  filter: url(#neon-glow);
+  opacity: 0.25;
 }
 
-.path-line-progress {
-  stroke: var(--accent-purple);
+.path-line-rainbow {
+  stroke: url(#rainbow-road-grad);
   stroke-width: 4;
   stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.path-line-dark-center {
+  stroke: #090e17;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  opacity: 0.95;
+}
+
+.path-line-core-energy {
+  stroke: url(#rainbow-road-grad);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+  stroke-dasharray: 2 4;
+  opacity: 0.9;
+  animation: flowEnergy 8s linear infinite;
+}
+
+@keyframes flowEnergy {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.path-line-progress-neon {
+  stroke: url(#rainbow-road-grad);
+  stroke-width: 1.2;
+  stroke-linecap: round;
   transition: stroke-dashoffset 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 0 6px var(--accent-purple-glow));
+  filter: url(#neon-glow);
 }
 
 /* Level Nodes */
