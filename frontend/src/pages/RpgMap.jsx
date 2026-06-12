@@ -117,22 +117,17 @@ export default function RpgMap() {
     localStorage.setItem('rpg_char_class', charClass);
   }, [charClass]);
 
-  // Handle keyboard inputs
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (isMoving) return;
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
-        e.preventDefault();
-        moveToLevel(Math.min(currentLevel + 1, 7));
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
-        e.preventDefault();
-        moveToLevel(Math.max(currentLevel - 1, 1));
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentLevel, isMoving]);
+  // Handle keyboard inputs locally on focused map wrapper
+  const handleKeyDown = (e) => {
+    if (isMoving) return;
+    if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+      e.preventDefault();
+      moveToLevel(Math.min(currentLevel + 1, 7));
+    } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+      e.preventDefault();
+      moveToLevel(Math.max(currentLevel - 1, 1));
+    }
+  };
 
   const moveToLevel = (levelId) => {
     if (levelId === currentLevel) return;
@@ -207,8 +202,13 @@ export default function RpgMap() {
             <span>📱 Clique ou toque em qualquer nó no mapa.</span>
           </div>
 
-          <div className="map-view-wrapper" ref={mapContainerRef}>
-            {/* Connection line between levels (Rainbow Road) */}
+          <div 
+            className="map-view-wrapper" 
+            ref={mapContainerRef}
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+          >
+            {/* Connection line between levels (Rainbow Road with clean clipping mask) */}
             <svg className="map-svg-connections" viewBox="0 0 100 100" preserveAspectRatio="none">
               <defs>
                 {/* Rainbow road gradient (bottom to top) */}
@@ -231,41 +231,62 @@ export default function RpgMap() {
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
+
+                {/* Mask to cut out nodes so connections stop exactly at outer borders */}
+                <mask id="road-mask">
+                  <rect x="0" y="0" width="100" height="100" fill="white" />
+                  {NODES.map(node => {
+                    const isActive = node.id === currentLevel;
+                    const r = isActive ? 4.5 : 3.8;
+                    return (
+                      <circle 
+                        key={node.id} 
+                        cx={node.x} 
+                        cy={node.y} 
+                        r={r} 
+                        fill="black" 
+                      />
+                    );
+                  })}
+                </mask>
               </defs>
 
-              {/* 1. Volumetric Ambient Glow (Backdrop Glow) */}
-              <path d={getSvgPath()} fill="none" className="path-line-back-glow" />
+              {/* Masked group containing all elements of the road */}
+              <g mask="url(#road-mask)">
+                {/* 1. Volumetric Ambient Glow (Backdrop Glow) */}
+                <path d={getSvgPath()} fill="none" className="path-line-back-glow" />
 
-              {/* 2. Rainbow Rails (Road Border) */}
-              <path d={getSvgPath()} fill="none" className="path-line-rainbow" />
+                {/* 2. Rainbow Rails (Road Border) */}
+                <path d={getSvgPath()} fill="none" className="path-line-rainbow" />
 
-              {/* 3. Dark Glass Center Track */}
-              <path d={getSvgPath()} fill="none" className="path-line-dark-center" />
+                {/* 3. Dark Glass Center Track */}
+                <path d={getSvgPath()} fill="none" className="path-line-dark-center" />
 
-              {/* 4. Core Dashed Energy Lane */}
-              <path d={getSvgPath()} fill="none" className="path-line-core-energy" />
+                {/* 4. Core Dashed Energy Lane */}
+                <path d={getSvgPath()} fill="none" className="path-line-core-energy" />
 
-              {/* 5. Glowing Active Progress Overlay */}
-              <path 
-                d={getSvgPath()} 
-                fill="none" 
-                className="path-line-progress-neon" 
-                style={{
-                  strokeDasharray: '400',
-                  strokeDashoffset: `${400 - (400 * (currentLevel - 1) / 6)}`
-                }}
-              />
+                {/* 5. Glowing Active Progress Overlay */}
+                <path 
+                  d={getSvgPath()} 
+                  fill="none" 
+                  className="path-line-progress-neon" 
+                  style={{
+                    strokeDasharray: '400',
+                    strokeDashoffset: `${400 - (400 * (currentLevel - 1) / 6)}`
+                  }}
+                />
 
-              {/* 6. Animated Light Beads (Energy Particles) */}
-              <circle r="0.6" fill="#ffffff" filter="url(#neon-glow)">
-                <animateMotion dur="8s" repeatCount="indefinite" path={getSvgPath()} />
-              </circle>
-              <circle r="0.4" fill="#1AB8FF" filter="url(#neon-glow)">
-                <animateMotion dur="12s" repeatCount="indefinite" path={getSvgPath()} />
-              </circle>
-              <circle r="0.4" fill="#43E8D8" filter="url(#neon-glow)">
-                <animateMotion dur="10s" begin="3.5s" repeatCount="indefinite" path={getSvgPath()} />
-              </circle>
+                {/* 6. Animated Light Beads (Energy Particles) */}
+                <circle r="0.6" fill="#ffffff" filter="url(#neon-glow)">
+                  <animateMotion dur="8s" repeatCount="indefinite" path={getSvgPath()} />
+                </circle>
+                <circle r="0.4" fill="#1AB8FF" filter="url(#neon-glow)">
+                  <animateMotion dur="12s" repeatCount="indefinite" path={getSvgPath()} />
+                </circle>
+                <circle r="0.4" fill="#43E8D8" filter="url(#neon-glow)">
+                  <animateMotion dur="10s" begin="3.5s" repeatCount="indefinite" path={getSvgPath()} />
+                </circle>
+              </g>
             </svg>
 
             {/* Level Nodes */}
