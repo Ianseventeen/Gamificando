@@ -130,6 +130,7 @@ export default function ParticleBackground() {
         height: '100vh',
         zIndex: -2,
         pointerEvents: 'none',
+        backgroundColor: '#050608', // Evita bugs de blending do navegador e garante fundo escuro sólido
       }}
     />
   );
